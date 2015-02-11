@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+			xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+			fx:controller="de.saxsys.mvvmfx.examples.dialogs.MainView">
+	<children>
+		<TabPane tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+				 AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<tabs>
+				<Tab text="FileChooser">
+					<content>
+						<fx:include source="./filechooser/FileChooserView.fxml"/>
+					</content>
+				</Tab>
+				<Tab text="ControlsFX">
+					<content>
+						<fx:include source="./controlsfx/ControlsFxView.fxml"/>
+					</content>
+				</Tab>
+				<Tab text="OpenJFX Dialogs">
+					<content>
+						<fx:include source="./openjfx/OpenJfxView.fxml"/>
+					</content>
+				</Tab>
+			</tabs>
+		</TabPane>
+	</children>
+</AnchorPane>
