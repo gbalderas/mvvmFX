@@ -1,4 +1,4 @@
-package de.saxsys.mvvmfx.scopes.scopeprovider;
+package de.saxsys.mvvmfx.scopes.scopeprovider.example1;
 
 import de.saxsys.mvvmfx.Scope;
 

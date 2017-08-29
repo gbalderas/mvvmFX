@@ -272,20 +272,25 @@ public class ViewLoaderReflectionUtils {
                     newVmConsumer.accept((ViewModel) newViewModel);
                 }
             }, "Can't inject ViewModel of type <" + viewModelType + "> into the view <" + view + ">");
-        } else if (viewModelType.isAnnotationPresent(ScopeProvider.class)){
-            //create an instance of the ViewModel if it is a ScopeProvider, even if there is no field to inject to
-            ScopeProvider annotation = viewModelType.getAnnotation(ScopeProvider.class);
-            if(annotation != null){
-                try {
-                    final Object newViewModel = DependencyInjector.getInstance().getInstanceOf(viewModelType);
-                    newVmConsumer.accept((ViewModel) newViewModel);
-                } catch (Exception e){
-                    String errorMessage = "Can't inject ViewModel of type <" + viewModelType + "> into the view <" + view + ">";
-                    throw new IllegalStateException(errorMessage, e);
-                }
-            }
-        }
-    }
+        } else {
+			//initialize a ViewModel instance if it is a ScopeProvider or contains a scope injection
+
+			Optional<Field> injectScopeOptional = Arrays.stream(viewModelType.getDeclaredFields())
+					.filter(field -> field.isAnnotationPresent(InjectScope.class))
+					.findAny();
+
+			if (viewModelType.isAnnotationPresent(ScopeProvider.class) || injectScopeOptional.isPresent()) {
+				try {
+					final Object newViewModel = DependencyInjector.getInstance().getInstanceOf(viewModelType);
+					newVmConsumer.accept((ViewModel) newViewModel);
+				} catch (Exception e) {
+					String errorMessage =
+							"Can't inject ViewModel of type <" + viewModelType + "> into the view <" + view + ">";
+					throw new IllegalStateException(errorMessage, e);
+				}
+			}
+		}
+	}
 
     static void createAndInjectScopes(Object viewModel, ContextImpl context) {
 

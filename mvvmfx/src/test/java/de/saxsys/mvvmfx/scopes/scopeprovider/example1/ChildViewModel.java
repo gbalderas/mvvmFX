@@ -1,4 +1,4 @@
-package de.saxsys.mvvmfx.scopes.scopeprovider;
+package de.saxsys.mvvmfx.scopes.scopeprovider.example1;
 
 import de.saxsys.mvvmfx.InjectScope;
 import de.saxsys.mvvmfx.ViewModel;
@@ -8,10 +8,10 @@ public class ChildViewModel implements ViewModel {
     @InjectScope
 	private MyScope scope;
 
-    public static ChildViewModel INSTANCE;
+    public static ChildViewModel instance;
 
     public ChildViewModel(){
-    	INSTANCE = this;
+    	instance = this;
 	}
 
 	public MyScope getScope() {
