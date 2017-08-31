@@ -16,13 +16,11 @@
 package de.saxsys.mvvmfx.utils.validation;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.beans.property.ReadOnlyBooleanWrapper;
-import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -40,6 +38,7 @@ import java.util.Optional;
 public class ValidationStatus {
 	
 	private ListProperty<ValidationMessage> messages = new SimpleListProperty<>(FXCollections.observableArrayList());
+	private SimpleBooleanProperty emptyProperty = new SimpleBooleanProperty();
 
 	private ObservableList<ValidationMessage> unmodifiableMessages = FXCollections.unmodifiableObservableList(messages);
 	private ObservableList<ValidationMessage> errorMessages = new FilteredList<>(unmodifiableMessages, message -> message.getSeverity().equals(Severity.ERROR));
@@ -104,7 +103,22 @@ public class ValidationStatus {
 	 * @return <code>true</code> if there are no validation messages present.
 	 */
 	public ReadOnlyBooleanProperty validProperty() {
-		return messages.emptyProperty();
+		emptyProperty.unbind();
+			emptyProperty.bind(
+					Bindings.when(messages.sizeProperty()
+							.isEqualTo(0))
+							.then(true)
+							.otherwise(false));
+		return emptyProperty;
+		//		return messages.emptyProperty();
+//		return emptyProperty();
+	}
+
+	private ReadOnlyBooleanProperty emptyProperty(){
+//		SimpleBooleanProperty simpleBooleanProperty= new SimpleBooleanProperty();
+//		simpleBooleanProperty.bind(messages.emptyProperty());
+//		return simpleBooleanProperty;
+return null;
 	}
 	
 	public boolean isValid() {
